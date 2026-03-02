@@ -1,0 +1,5 @@
+date,service,category,cost,cloud_provider
+2024-01-01,VirtualMachine,Compute,150.00,Azure
+2024-01-01,BlobStorage,Storage,60.00,Azure
+2024-01-02,SQLDatabase,Database,95.00,Azure
+2024-01-02,AppService,Compute,80.00,Azure
