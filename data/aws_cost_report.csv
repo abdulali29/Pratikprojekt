@@ -1,5 +1,0 @@
-date,service,category,cost
-2024-01-01,Compute,VM,120.50
-2024-01-01,Storage,Blob,45.75
-2024-01-02,Compute,VM,130.00
-2024-01-02,Database,SQL,89.20
