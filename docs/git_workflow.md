@@ -16,9 +16,12 @@ Udviklingsprocessen følger et simpelt Git workflow:
 
 Eksempel:
 
+```bash
 git add .
 git commit -m "Add ETL pipeline"
 git push origin main
+```
+
 
 ## Formål
 
