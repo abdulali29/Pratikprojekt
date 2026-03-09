@@ -1,22 +1,19 @@
-from database.connection import get_connection
-from database.schema import create_table
+import sqlite3
 
 def insert_azure_data(data):
-    create_table()  # Ensure table exists
-
-    conn = get_connection()
+    conn = sqlite3.connect("database/cloud_costs.db")
     cursor = conn.cursor()
 
-    for item in data:
-        cost = item.get("pretaxCost", 0)
-        service = item.get("instanceName", "Unknown")
-
+    for record in data:
         cursor.execute("""
-        INSERT INTO cloud_costs (service, cost)
-        VALUES (?, ?)
-        """, (service, float(cost)))
+            INSERT INTO cloud_costs (date, service, category, cost)
+            VALUES (?, ?, ?, ?)
+        """, (
+            record["date"],
+            record["service"],
+            record["category"],
+            record["cost"]
+        ))
 
     conn.commit()
     conn.close()
-
-    print("Azure data inserted into database.")

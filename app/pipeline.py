@@ -1,18 +1,21 @@
-from providers.azure import fetch
-from database.db import insert_azure_data
+from providers.aws import AWSProvider
+from data.insert_data import insert_costs
+
 
 def run_pipeline():
-    print("Starting Azure pipeline...")
+    print("Starting cloud cost pipeline...")
 
-    data = fetch()
+    # Fetch AWS data
+    aws_provider = AWSProvider()
+    aws_data = aws_provider.fetch()
 
-    if not data:
-        print("No data fetched. Pipeline stopped.")
-        return
+    print(f"AWS records fetched: {len(aws_data)}")
 
-    insert_azure_data(data)
+    # Insert into database
+    insert_costs(aws_data)
 
-    print("Pipeline completed successfully.")
+    print("Data successfully stored in database.")
+
 
 if __name__ == "__main__":
     run_pipeline()

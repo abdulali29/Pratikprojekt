@@ -7,7 +7,7 @@ import pandas as pd
 # ---------------------------------------------------
 def load_data():
     # Connect to SQLite database
-    conn = sqlite3.connect("cloud_costs.db")
+    conn = sqlite3.connect("database/cloud_costs.db")
 
     # Read entire cloud_costs table into a Pandas DataFrame
     df = pd.read_sql_query("SELECT * FROM cloud_costs", conn)
@@ -85,3 +85,19 @@ def detect_cost_spike(df, threshold=20):
     negative_spikes = daily_pct[daily_pct < -threshold]
 
     return positive_spikes, negative_spikes
+
+
+# ---------------------------------------------------
+# Function: cost_over_time
+# Purpose: Aggregate cost per day
+# ---------------------------------------------------
+def cost_over_time(df):
+
+    # Convert date column to datetime
+    df["date"] = pd.to_datetime(df["date"])
+
+    # Group by date and sum cost
+    return df.groupby("date")["cost"].sum().sort_index()
+
+
+    
