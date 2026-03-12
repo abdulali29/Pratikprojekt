@@ -1,18 +1,37 @@
+# ==========================================
+# IMPORT LIBRARIES
+# ==========================================
+
 import subprocess
 import json
 import logging
 from providers.base_provider import BaseProvider
 
 
+# ==========================================
+# AZURE PROVIDER CLASS
+# Denne klasse håndterer hentning af
+# cloud-omkostningsdata fra Azure
+# ==========================================
+
 class AzureProvider(BaseProvider):
 
+
+    # ==========================================
+    # INITIALIZE AZURE PROVIDER
+    # Gemmer subscription ID
+    # ==========================================
     def __init__(self):
+
         self.subscription_id = "df7bb429-79b5-41c2-828f-29b375942db5"
 
+
+    # ==========================================
+    # FETCH RAW DATA FROM AZURE
+    # Bruger Azure CLI til at hente usage data
+    # ==========================================
     def fetch_raw(self):
-        """
-        1️⃣ Fetch raw JSON from Azure CLI
-        """
+
         command = [
             "az", "consumption", "usage", "list",
             "--subscription", self.subscription_id,
@@ -22,37 +41,30 @@ class AzureProvider(BaseProvider):
         result = subprocess.run(command, capture_output=True, text=True)
 
         if result.returncode != 0:
-            logging.error("Azure CLI error:")
-            logging.error(result.stderr)
-            return []
+            raise Exception("Azure CLI error")
 
         return json.loads(result.stdout)
 
-    def map_columns(self, raw_data):
-        """
-        2️⃣ Map Azure fields to standardized format
-        """
-        standardized_data = []
 
-        for item in raw_data:
-            try:
-                standardized_data.append({
-                    "date": (item.get("usageStart") or "")[:10],
-                    "service": item.get("meterCategory", "Unknown"),
-                    "category": item.get("meterSubCategory", "General"),
-                    "cost": float(item.get("pretaxCost", 0))
-                })
-            except Exception:
-                continue
+  # ==========================================
+# PARSE AZURE DATA
+# Konverterer Azure JSON data til et
+# standard format for systemet
+# ==========================================
 
-        return standardized_data
+def parse(self, data):
 
-    def fetch(self):
-        """
-        3️⃣ Full Azure pipeline:
-            - Fetch raw data
-            - Map columns
-            - Return standardized format
-        """
-        raw_data = self.fetch_raw()
-        return self.map_columns(raw_data)
+    parsed = []
+
+    for item in data:
+
+        parsed.append({
+            "provider": "azure",
+            "service": item.get("meterCategory", "unknown"),
+            "resource": item.get("instanceName", "unknown"),
+            "date": item.get("usageStart"),
+            "cost": item.get("pretaxCost", 0)
+        })
+
+    return parsed
+
