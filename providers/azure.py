@@ -68,3 +68,76 @@ def parse(self, data):
 
     return parsed
 
+
+
+
+    from azure.storage.blob import BlobServiceClient
+import pandas as pd
+import io
+
+
+class AzureProvider:
+
+    def __init__(self):
+
+        self.connection_string = "DIN_CONNECTION_STRING"
+        self.container_name = "cost-exports"
+
+        self.blob_service = BlobServiceClient.from_connection_string(
+            self.connection_string
+        )
+
+    def fetch_csv(self):
+
+        container_client = self.blob_service.get_container_client(
+            self.container_name
+        )
+
+        for blob in container_client.list_blobs():
+
+            if blob.name.endswith(".csv"):
+
+                print("Found CSV:", blob.name)
+
+                blob_client = container_client.get_blob_client(blob)
+
+                data = blob_client.download_blob().readall()
+
+                df = pd.read_csv(io.BytesIO(data))
+
+                return dffrom azure.storage.blob import BlobServiceClient
+import pandas as pd
+import io
+
+
+class AzureProvider:
+
+    def __init__(self):
+
+        self.connection_string = "df7bb429-79b5-41c2-828f-29b375942db5"
+        self.container_name = "cost-exports"
+
+        self.blob_service = BlobServiceClient.from_connection_string(
+            self.connection_string
+        )
+
+    def fetch_csv(self):
+
+        container_client = self.blob_service.get_container_client(
+            self.container_name
+        )
+
+        for blob in container_client.list_blobs():
+
+            if blob.name.endswith(".csv"):
+
+                print("Found CSV:", blob.name)
+
+                blob_client = container_client.get_blob_client(blob)
+
+                data = blob_client.download_blob().readall()
+
+                df = pd.read_csv(io.BytesIO(data))
+
+                return df
+
