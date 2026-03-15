@@ -12,11 +12,11 @@ def init_db():
     cursor = conn.cursor()
 
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS costs (
-        provider TEXT,
-        service TEXT,
-        resource TEXT,
+    CREATE TABLE IF NOT EXISTS cloud_costs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         date TEXT,
+        service TEXT,
+        category TEXT,
         cost REAL
     )
     """)
@@ -31,15 +31,16 @@ def save_costs(data):
 
     for item in data:
         cursor.execute("""
-        INSERT INTO costs (provider, service, resource, date, cost)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO cloud_costs (date, service, category, cost)
+        VALUES (?, ?, ?, ?)
         """, (
-            item["provider"],
-            item["service"],
-            item["resource"],
-            item["date"],
-            item["cost"]
+            item.get("date"),
+            item.get("service"),
+            item.get("category"),
+            item.get("cost")
         ))
 
     conn.commit()
     conn.close()
+
+    print("Data inserted into database")
