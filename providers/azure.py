@@ -6,7 +6,11 @@ from azure.storage.blob import BlobServiceClient
 import pandas as pd
 import io
 from providers.base_provider import BaseProvider
+import os
+from dotenv import load_dotenv
 
+
+load_dotenv()
 
 # ==========================================
 # AZURE PROVIDER CLASS
@@ -18,7 +22,7 @@ class AzureProvider(BaseProvider):
     def __init__(self):
 
         # Azure Blob Storage connection
-        self.connection_string = "DIN_CONNECTION_STRING"
+        self.connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
         self.container_name = "cost-exports"
 
         self.blob_service = BlobServiceClient.from_connection_string(
@@ -54,13 +58,13 @@ class AzureProvider(BaseProvider):
     # PARSE DATA
     # Konverterer CSV til systemets format
     # ==========================================
-    def parse(self, df):
+        def parse(self, df):
 
         data = []
 
         for _, row in df.iterrows():
-
             data.append({
+                "provider": "Azure",
                 "date": row.get("usageStart"),
                 "service": row.get("meterCategory"),
                 "category": row.get("meterSubCategory"),
@@ -68,3 +72,10 @@ class AzureProvider(BaseProvider):
             })
 
         return data
+        
+# ---------
+    def fetch(self):
+
+        df = self.fetch_csv()
+
+        return self.parse(df)

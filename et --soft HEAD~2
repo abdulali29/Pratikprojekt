@@ -1,0 +1,31 @@
+[33m6ffad25[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Final fix: secure env setup
+[33mfa5e66c[m pipeline update
+[33m81415bc[m[33m ([m[1;31morigin/main[m[33m)[m docs: add Azure Blob to SQLite pipeline screenshot
+[33mb19cf3c[m feat: implement Azure CSV parsing and SQLite storage integration
+[33mb0f18bf[m docs: add screenshot showing Azure Blob CSV ingestion test
+[33mea125f0[m Create README.md
+[33m726df6d[m Remove Azure connection string and secure blob test
+[33m905c876[m refactor: reorganize project structure and move database module to storage
+[33m95e7c7e[m Update Azure provider parsing and move db module to storage
+[33m35db305[m Chore: remove duplicate database file
+[33m8662bea[m Add multi-cloud ETL pipeline combining AWS and Azure cost reports
+[33mcaebe5f[m Merge branch 'main' of https://github.com/abdulali29/Pratikprojekt
+[33m3dcef59[m remove aws cli installation files
+[33mcbadfb2[m Update git_workflow.md
+[33m4117895[m Update git_workflow.md
+[33m1ff9c69[m Create git_workflow.md
+[33mc342f7d[m remove large zip file
+[33m33a3c44[m Merge branch 'main' of https://github.com/abdulali29/Pratikprojekt
+[33m4efe81b[m Add praktik virksomhed project
+[33m30e12c7[m[33m ([m[1;33mtag: [m[1;33mv1.0[m[33m)[m Added configuration and project dependencies
+[33me2e014d[m Added test modules for cost and Azure integration
+[33m44e9cbe[m Implemented automated cloud cost pipeline
+[33m6b94515[m Implemented cost analysis module
+[33m2437e70[m Implemented CSV validation and import to database
+[33m41605e1[m Implemented database schema and connection logic
+[33mc7335ae[m Implemented cloud provider integrations (Azure, AWS, GCP)
+[33ma428ee2[m Removed generated CSV files from tracking and updated gitignore
+[33m2eea1a0[m Improved gitignore to exclude cache and database files
+[33m5d348f7[m Removed cache and database files, updated gitignore
+[33m1c15281[m Initial project structure with gitignore
+[33m507836e[m Initial commit
